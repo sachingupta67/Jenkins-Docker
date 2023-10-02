@@ -1,0 +1,15 @@
+FROM jenkins/jenkins:lts
+
+# Switch to root to have admin access
+USER root
+
+# Install required packages
+RUN apt-get update -qq \
+    && apt-get install -qqy apt-transport-https ca-certificates curl gnupg2 software-properties-common
+
+# Add Docker repository and install Docker
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - \
+    && curl -fsSL https://get.docker.com -o get-docker.sh \
+    && sh get-docker.sh
+
+RUN usermod -aG docker jenkins    
